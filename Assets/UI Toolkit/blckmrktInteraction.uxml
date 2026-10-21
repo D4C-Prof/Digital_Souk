@@ -1,0 +1,3 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text="Press F to interact" style="width: 1300px; height: 200px; font-size: 150px; aspect-ratio: auto; position: absolute; top: 1564px; left: 1302px;"/>
+</ui:UXML>
