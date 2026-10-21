@@ -1,0 +1,73 @@
+
+# ==========================================
+# Unity generated folders
+# ==========================================
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Uu]serSettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# ==========================================
+# Unity build outputs
+# ==========================================
+[Bb]uild/
+[Bb]uilds/
+[Dd]ist/
+
+# ==========================================
+# IDE and editor generated files
+# ==========================================
+.vs/
+.vscode/
+.idea/
+.gradle/
+
+# Visual Studio generated files
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svclog
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# JetBrains Rider generated files
+*.sln.iml
+
+# ==========================================
+# Operating system files
+# ==========================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==========================================
+# Crash reports and temporary files
+# ==========================================
+sysinfo.txt
+*.stackdump
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# ==========================================
+# Profiling data
+# ==========================================
+*.prof
+*.profdata
+
+# ==========================================
+# Local environment and secrets
+# ==========================================
+.env
+.env.*
+!.env.example
