@@ -1,0 +1,126 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Style src="project://database/Assets/UI/Styles/DigitalSoukTheme.uss" />
+
+    <ui:VisualElement name="screen-root" class="screen-root">
+
+        <!-- ========================================================= -->
+        <!-- 1. START MENU OVERLAY                                     -->
+        <!-- ========================================================= -->
+        <ui:VisualElement name="start-menu-overlay" class="overlay-backdrop overlay-backdrop--start-menu">
+            <ui:VisualElement class="menu-card">
+                <ui:Label text="PROJECT DIGITAL SOUK" class="brand-badge" />
+                <ui:Label text="DIGITAL SOUK" class="brand-title" />
+                <ui:Label text="Virtual Bazaar &amp; Interactive Realm" class="brand-subtitle" />
+                <ui:VisualElement class="menu-divider" />
+
+                <ui:VisualElement class="button-stack">
+                    <ui:Button name="start-btn-play" text="START GAME" class="menu-btn menu-btn--primary" />
+                    <ui:Button name="start-btn-controls" text="HOW TO PLAY" class="menu-btn" />
+                    <ui:Button name="start-btn-settings" text="SETTINGS" class="menu-btn" />
+                    <ui:Button name="start-btn-quit" text="QUIT GAME" class="menu-btn menu-btn--danger" />
+                </ui:VisualElement>
+
+                <ui:Label text="Unity 6 • UI Toolkit • URP" class="version-text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ========================================================= -->
+        <!-- 2. PAUSE MENU OVERLAY                                     -->
+        <!-- ========================================================= -->
+        <ui:VisualElement name="pause-menu-overlay" class="overlay-backdrop overlay-backdrop--pause-menu overlay-hidden">
+            <ui:VisualElement class="menu-card menu-card--pause">
+                <ui:Label text="GAME PAUSED" class="brand-badge" />
+                <ui:Label text="PAUSED" class="brand-title" />
+                <ui:Label text="Souk simulation suspended" class="brand-subtitle" />
+                <ui:VisualElement class="menu-divider" />
+
+                <ui:VisualElement class="button-stack">
+                    <ui:Button name="pause-btn-resume" text="RESUME" class="menu-btn menu-btn--accent" />
+                    <ui:Button name="pause-btn-restart" text="RESTART LEVEL" class="menu-btn" />
+                    <ui:Button name="pause-btn-controls" text="CONTROLS" class="menu-btn" />
+                    <ui:Button name="pause-btn-settings" text="SETTINGS" class="menu-btn" />
+                    <ui:Button name="pause-btn-mainmenu" text="MAIN MENU" class="menu-btn" />
+                    <ui:Button name="pause-btn-quit" text="QUIT GAME" class="menu-btn menu-btn--danger" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ========================================================= -->
+        <!-- 3. SETTINGS MODAL OVERLAY                                 -->
+        <!-- ========================================================= -->
+        <ui:VisualElement name="settings-overlay" class="overlay-backdrop overlay-hidden">
+            <ui:VisualElement class="menu-card">
+                <ui:Label text="SYSTEM CONFIGURATION" class="brand-badge" />
+                <ui:Label text="SETTINGS" class="brand-title" />
+                <ui:Label text="Adjust your audio and controls" class="brand-subtitle" />
+                <ui:VisualElement class="menu-divider" />
+
+                <ui:VisualElement class="settings-group">
+                    <ui:Label name="audio-volume-label" text="Master Volume: 100%" class="settings-label" />
+                    <ui:Slider name="audio-volume-slider" low-value="0" high-value="100" value="100" class="settings-slider" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="settings-group">
+                    <ui:Label name="sensitivity-label" text="Mouse Sensitivity: 2.5x" class="settings-label" />
+                    <ui:Slider name="sensitivity-slider" low-value="0.5" high-value="5" value="2.5" class="settings-slider" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="settings-group">
+                    <ui:Toggle name="invert-y-toggle" label="Invert Vertical Camera Pitch" class="settings-toggle" />
+                </ui:VisualElement>
+
+                <ui:Button name="settings-btn-back" text="← BACK" class="menu-btn menu-btn--back" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ========================================================= -->
+        <!-- 4. CONTROLS MODAL OVERLAY                                 -->
+        <!-- ========================================================= -->
+        <ui:VisualElement name="controls-overlay" class="overlay-backdrop overlay-hidden">
+            <ui:VisualElement class="menu-card">
+                <ui:Label text="INPUT MANUAL" class="brand-badge" />
+                <ui:Label text="CONTROLS" class="brand-title" />
+                <ui:Label text="Standard keyboard &amp; mouse navigation" class="brand-subtitle" />
+                <ui:VisualElement class="menu-divider" />
+
+                <ui:VisualElement class="button-stack">
+                    <ui:VisualElement class="controls-row">
+                        <ui:Label text="W / A / S / D" class="controls-key" />
+                        <ui:Label text="Move Player" class="controls-desc" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement class="controls-row">
+                        <ui:Label text="SPACE" class="controls-key" />
+                        <ui:Label text="Jump" class="controls-desc" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement class="controls-row">
+                        <ui:Label text="MOUSE LOOK" class="controls-key" />
+                        <ui:Label text="Orbit Camera View" class="controls-desc" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement class="controls-row">
+                        <ui:Label text="SCROLL WHEEL" class="controls-key" />
+                        <ui:Label text="Zoom In / Out" class="controls-desc" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement class="controls-row">
+                        <ui:Label text="ESC" class="controls-key" />
+                        <ui:Label text="Pause / Open Menu" class="controls-desc" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:Button name="controls-btn-back" text="← BACK" class="menu-btn menu-btn--back" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ========================================================= -->
+        <!-- 5. IN-GAME HUD HINT                                       -->
+        <!-- ========================================================= -->
+        <ui:VisualElement name="hud-overlay" class="hud-overlay overlay-hidden">
+            <ui:Label text="ESC" class="hud-hint-key" />
+            <ui:Label text="Pause Menu" class="hud-hint-text" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
