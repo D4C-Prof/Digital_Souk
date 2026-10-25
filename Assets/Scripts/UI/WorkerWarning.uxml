@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="warningPanel" enabled="true" style="flex-grow: 1; width: 420px; height: 125px; background-color: rgba(165, 46, 68, 0.275); border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; position: absolute; top: 30px; left: 50%; margin-left: -210px; align-items: center; justify-content: center; font-size: 28px; display: none;">
+        <ui:Label text="⚠ RESTRICTED AREA" enabled="true" name="Label" style="-unity-font-style: bold; font-size: 28px; -unity-text-align: upper-center;"/>
+        <ui:Label text="STOP! Workers Only!" enabled="true" style="font-size: 20px; color: rgb(255, 255, 255); -unity-text-align: upper-center;"/>
+    </ui:VisualElement>
+</ui:UXML>
