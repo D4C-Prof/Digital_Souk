@@ -1,14 +1,16 @@
-
 using UnityEngine;
 using UnityEngine.AI;
-using TMPro;
+using UnityEngine.UIElements;
 
 public class AdminAreaGuard : MonoBehaviour
 {
     public NavMeshAgent admin;
     public Transform player;
     public Transform exitPoint;
-    public TMP_Text warningText;
+
+    // UI Toolkit
+    public UIDocument uiDocument;
+    private VisualElement warningPanel;
 
     public float catchDistance = 1.2f;
     public float pushSpeed = 2.5f;
@@ -27,8 +29,14 @@ public class AdminAreaGuard : MonoBehaviour
         cc = player.GetComponent<CharacterController>();
         rb = player.GetComponent<Rigidbody>();
 
-        if (warningText != null)
-            warningText.gameObject.SetActive(false);
+        // Get the warning panel from UI Toolkit
+        if (uiDocument != null)
+        {
+            warningPanel = uiDocument.rootVisualElement.Q<VisualElement>("warningPanel");
+
+            if (warningPanel != null)
+                warningPanel.style.display = DisplayStyle.None;
+        }
     }
 
     bool IsPlayer(Collider other)
@@ -44,11 +52,8 @@ public class AdminAreaGuard : MonoBehaviour
         inside = true;
         pushing = false;
 
-        if (warningText != null)
-        {
-            warningText.text = "STOP! Workers only!";
-            warningText.gameObject.SetActive(true);
-        }
+        if (warningPanel != null)
+            warningPanel.style.display = DisplayStyle.Flex;
     }
 
     void Update()
@@ -73,7 +78,6 @@ public class AdminAreaGuard : MonoBehaviour
         }
 
         // STEP 2: PUSH
-        // CharacterController or simple Transform movement
         if (pushing && (cc != null || rb == null))
         {
             Push(Time.deltaTime);
@@ -82,7 +86,6 @@ public class AdminAreaGuard : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Rigidbody movement
         if (inside && pushing && cc == null && rb != null)
         {
             Push(Time.fixedDeltaTime);
@@ -137,8 +140,8 @@ public class AdminAreaGuard : MonoBehaviour
         inside = false;
         pushing = false;
 
-        if (warningText != null)
-            warningText.gameObject.SetActive(false);
+        if (warningPanel != null)
+            warningPanel.style.display = DisplayStyle.None;
 
         if (admin.isOnNavMesh)
         {
@@ -146,4 +149,4 @@ public class AdminAreaGuard : MonoBehaviour
             admin.SetDestination(startPosition);
         }
     }
-}
+} 
