@@ -5,7 +5,7 @@ public class movement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float speed = 20;
-    public float jumpForce = 10;
+    public float jumpForce = 8;
 
     [Header("Camera-Relative Movement")]
     [Tooltip("If true, movement aligns with the camera's view direction (W moves forward into screen).")]
@@ -20,7 +20,6 @@ public class movement : MonoBehaviour
     private Vector2 moveInput;
     private bool isGranded;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -28,35 +27,35 @@ public class movement : MonoBehaviour
         rb.freezeRotation = true;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
+        moveAction = InputSystem.actions?.FindAction("Move");
+        jumpAction = InputSystem.actions?.FindAction("Jump");
 
         if (cameraTransform == null && Camera.main != null)
         {
             cameraTransform = Camera.main.transform;
         }
 
-        isGranded = false;
+        isGranded = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        moveInput = moveAction.ReadValue<Vector2>();
+        if (moveAction != null)
+        {
+            moveInput = moveAction.ReadValue<Vector2>();
+        }
 
-        if (jumpAction.IsPressed())
+        if (jumpAction != null && jumpAction.WasPressedThisFrame())
         {
-            Debug.Log("Jump Pressed");
-        }
-        if (jumpAction.WasPressedThisFrame())
-        {
-            Debug.Log("Jump Pressed this frame");
             if (isGranded)
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-        if (jumpAction.WasReleasedThisFrame())
-        {
-            Debug.Log("Jump Released this frame");
+            {
+                Vector3 v = rb.linearVelocity;
+                // Clamp jump velocity to realistic arcade jump (7-8 m/s) in case inspector has old 999
+                float actualJump = (jumpForce > 30f) ? 8f : Mathf.Max(jumpForce, 5f);
+                v.y = actualJump;
+                rb.linearVelocity = v;
+                isGranded = false;
+            }
         }
 
         // Face movement direction without rolling
@@ -73,6 +72,32 @@ public class movement : MonoBehaviour
         Vector3 velocity = rb.linearVelocity;
         velocity.x = moveDir.x * speed * Time.fixedDeltaTime;
         velocity.z = moveDir.z * speed * Time.fixedDeltaTime;
+
+        // Ground detection: cast down 1.25m and ignore player's own collider
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.down, 1.25f, ~0, QueryTriggerInteraction.Ignore);
+        bool grounded = false;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].collider.transform.root != transform.root)
+            {
+                grounded = true;
+                break;
+            }
+        }
+        isGranded = grounded;
+
+        // Prevent floating when running into obstacles; apply downward gravity when in air
+        if (grounded && velocity.y <= 0.1f)
+        {
+            velocity.y = 0f;
+        }
+        else if (!grounded)
+        {
+            // Crisp downward gravity so player quickly returns to the ground
+            velocity.y += Physics.gravity.y * 2.5f * Time.fixedDeltaTime;
+            if (velocity.y < -30f) velocity.y = -30f;
+        }
+
         rb.linearVelocity = velocity;
     }
 
@@ -101,27 +126,15 @@ public class movement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject other = collision.gameObject;
-
-        if (!other.name.Equals("Plane"))
-            Debug.Log("OnCollisionEnter");
-
-        if (other.name.Equals("Plane"))
-            isGranded = true;
+        isGranded = true;
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!collision.gameObject.name.Equals("Plane"))
-            Debug.Log("OnCollisionStay");
+        isGranded = true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (!collision.gameObject.name.Equals("Plane"))
-            Debug.Log("OnCollisionExit");
-
-        if (collision.gameObject.name.Equals("Plane"))
-            isGranded = false;
     }
 }

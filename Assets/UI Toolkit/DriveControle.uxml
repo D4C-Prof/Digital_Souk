@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="RootContainer" picking-mode="Ignore" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; justify-content: flex-end; align-items: center; padding-bottom: 50px;">
+        <ui:VisualElement name="DrivePrompt" picking-mode="Ignore" style="align-items: center; justify-content: center; display: none;">
+            <ui:Label text="Press [E] To Drive" picking-mode="Ignore" style="background-color: rgba(15, 23, 42, 0.9); width: 450px; padding: 14px; font-size: 22px; -unity-font-style: bold; color: rgb(74, 222, 128); -unity-text-align: middle-center; border-radius: 12px; border-width: 2px; border-color: rgba(74, 222, 128, 0.7);"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="ExitPrompt" picking-mode="Ignore" style="align-items: center; justify-content: center; display: none;">
+            <ui:Label text="Press [F] to Hop Out" picking-mode="Ignore" style="background-color: rgba(15, 23, 42, 0.9); width: 450px; padding: 14px; font-size: 22px; -unity-font-style: bold; color: rgb(251, 191, 36); -unity-text-align: middle-center; border-radius: 12px; border-width: 2px; border-color: rgba(251, 191, 36, 0.7);"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

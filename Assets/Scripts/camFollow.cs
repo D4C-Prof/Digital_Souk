@@ -143,6 +143,28 @@ public class camFollow : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        // When switching back from car camera, preserve current camera orientation seamlessly
+        Vector3 currentAngles = transform.eulerAngles;
+        yaw = currentAngles.y;
+        pitch = currentAngles.x;
+        if (pitch > 180f) pitch -= 360f;
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+
+        if (target != null)
+        {
+            Vector3 targetCenter = target.position + targetOffset;
+            float initialDist = Vector3.Distance(transform.position, targetCenter);
+            if (initialDist > 0.5f)
+            {
+                distance = Mathf.Clamp(initialDist, minDistance, maxDistance);
+            }
+            lastTargetPosition = target.position;
+            hasLastTargetPosition = true;
+        }
+    }
+
     private void Update()
     {
         HandleCursorLock();

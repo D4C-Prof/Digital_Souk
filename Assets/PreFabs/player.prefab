@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 1200
-  jumpForce: 999
+  jumpForce: 8
   moveRelativeToCamera: 1
   cameraTransform: {fileID: 0}
 --- !u!54 &5062768190075901979
