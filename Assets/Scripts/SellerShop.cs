@@ -1,48 +1,129 @@
 using UnityEngine;
+using UnityEngine.UIElements;   // UI Toolkit 
 
-public class SellerInteraction : MonoBehaviour
+public class SellerShop : MonoBehaviour
 {
     [Header("References")]
-    public GameObject shopMenu;      // The shop UI panel (drag it here)
-    public GameObject interactHint;  // Optional: "Press E" text (can be left empty)
+    public UIDocument shopUI;             // The UIDocument object (drag it here)
+    public Transform player;              // The player (found automatically if tagged "Player")
 
-    private bool playerInRange = false;  // Is the player close to the seller?
+    [Header("Settings")]
+    public float interactDistance = 3f;   // How close the player must be
 
-    void Start()
+    // Names of the items = names of the buttons in the UXML
+    private string[] items =
     {
-        // Make sure the menu is closed at the start
-        if (shopMenu != null) shopMenu.SetActive(false);
-        if (interactHint != null) interactHint.SetActive(false);
+        "Melon", "Apple", "Pear", "Orange",
+        "Lettuce", "Potato", "Onion", "Carrot"
+    };
+
+    private VisualElement shopPanel;      // The shop window
+    private Label hint;                   // The "Press E" message
+    private bool isOpen = false;          // Is the shop open?
+    private CursorLockMode previousLockMode;
+
+void Start()
+{
+    // Find the player if not assigned
+    if (player == null)
+    {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) player = p.transform;
+        else Debug.LogWarning("No player found: give your player the 'Player' tag!");
     }
+
+    // Get the UI elements from the UXML by their name
+    VisualElement root = shopUI.rootVisualElement;
+    shopPanel = root.Q<VisualElement>("ShopPanel");
+    hint = root.Q<Label>("Hint");
+
+    // Show a clear error if a name doesn't match
+    if (shopPanel == null || hint == null)
+    {
+        Debug.LogError("ShopPanel or Hint not found in the UXML: check the names!");
+        return;
+    }
+
+    // Hide everything at the start
+    shopPanel.style.display = DisplayStyle.None;
+    hint.style.display = DisplayStyle.None;
+
+    // Link each button to its click event
+    foreach (string item in items)
+    {
+        string itemName = item; // local copy (needed for the click event)
+        Button button = root.Q<Button>(itemName);
+
+        if (button == null)
+        {
+            Debug.LogError("Button not found in the UXML: " + itemName);
+            continue;
+        }
+
+        button.clicked += () => BuyItem(itemName);
+    }
+}
 
     void Update()
     {
-        // Open / close the shop when pressing E near the seller
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (player == null || shopPanel == null) return;
+        if (player == null) return;
+
+        // Is the player close enough to the seller?
+        bool isNear = Vector3.Distance(player.position, transform.position) <= interactDistance;
+
+        // Show the hint only when near and the shop is closed
+        hint.style.display = (isNear && !isOpen) ? DisplayStyle.Flex : DisplayStyle.None;
+
+        // Press E near the seller -> open / close
+        if (isNear && UnityEngine.InputSystem.Keyboard.current.eKey.wasPressedThisFrame)    
         {
-            bool isOpen = shopMenu.activeSelf;
-            shopMenu.SetActive(!isOpen);   // toggle open/close
+            SetShopOpen(!isOpen);
+        }
+
+        // Player walked away -> close
+        if (!isNear && isOpen)
+        {
+            SetShopOpen(false);
         }
     }
 
-    // Player enters the seller's trigger zone
-    void OnTriggerEnter(Collider other)
+
+    void LateUpdate()
+{
+    if (isOpen)
     {
-        if (other.CompareTag("Player"))
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.visible = true;
+    }
+}
+
+
+    // Open or close the shop
+    void SetShopOpen(bool open)
+    {
+        isOpen = open;
+        shopPanel.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (open)
         {
-            playerInRange = true;
-            if (interactHint != null) interactHint.SetActive(true);
+            // Free the mouse so we can click
+            // (UnityEngine.Cursor written in full to avoid the conflict with UIElements.Cursor)
+            previousLockMode = UnityEngine.Cursor.lockState;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
+        }
+        else
+        {
+            // Restore the cursor as it was
+            UnityEngine.Cursor.lockState = previousLockMode;
+            UnityEngine.Cursor.visible = (previousLockMode != CursorLockMode.Locked);
         }
     }
 
-    // Player leaves the zone -> close everything
-    void OnTriggerExit(Collider other)
+    // Called when an item button is clicked
+    void BuyItem(string itemName)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-            shopMenu.SetActive(false);
-            if (interactHint != null) interactHint.SetActive(false);
-        }
+        Debug.Log(itemName + " bought!");
     }
 }
