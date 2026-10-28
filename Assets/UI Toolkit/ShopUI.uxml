@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <!-- Link the style file (same folder) -->
+    <Style src="ShopUI.uss" />
+
+    <!-- Full-screen container (does not block the game when the shop is closed) -->
+    <ui:VisualElement name="Root" class="root" picking-mode="Ignore">
+
+        <!-- "Press E" message -->
+        <ui:Label name="Hint" text="Press E to open the shop" class="hint" style="display: none;" />
+
+        <!-- Shop menu -->
+        <ui:VisualElement name="ShopPanel" class="shop-panel" style="display: none;">
+            <ui:Label text="Shop" class="shop-title" />
+
+            <ui:VisualElement class="items">
+                <!-- IMPORTANT: the name of each button = the item name -->
+                <ui:Button name="Melon" text="Melon" class="item-button" />
+                <ui:Button name="Apple" text="Apple" class="item-button" />
+                <ui:Button name="Pear" text="Pear" class="item-button" />
+                <ui:Button name="Orange" text="Orange" class="item-button" />
+                <ui:Button name="Lettuce" text="Lettuce" class="item-button" />
+                <ui:Button name="Potato" text="Potato" class="item-button" />
+                <ui:Button name="Onion" text="Onion" class="item-button" />
+                <ui:Button name="Carrot" text="Carrot" class="item-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

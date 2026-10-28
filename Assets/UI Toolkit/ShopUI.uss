@@ -1,0 +1,53 @@
+/* Full screen, content centered */
+.root {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+/* "Press E" message at the bottom of the screen */
+.hint {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    -unity-text-align: middle-center;
+    font-size: 26px;
+    color: white;
+}
+
+/* Shop window */
+.shop-panel {
+    width: 420px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+}
+
+.shop-title {
+    font-size: 30px;
+    color: white;
+    -unity-text-align: middle-center;
+    margin-bottom: 15px;
+}
+
+/* Buttons laid out in a grid (wraps to the next line) */
+.items {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item-button {
+    width: 170px;
+    height: 70px;
+    margin: 8px;
+    font-size: 22px;
+    color: white;
+    background-color: rgb(51, 153, 77);
+}
+
+/* Hover effect */
+.item-button:hover {
+    background-color: rgb(70, 190, 100);
+}
